@@ -1,0 +1,46 @@
+<?page title="Referensi Kecamatan" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Referensi Kecamatan" border="normal" mode="modal" width="500px"
+	position="center" height="400px" closable="true"
+	onClose="self.visible=false; event.stopPropagation();">
+  <vbox hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer"
+      viewModel="@id('kecamatan_vm') @init('lab.aikibo.viewmodel.KecamatanVM')">
+    <grid>
+      <columns>
+        <column />
+        <column />
+      </columns>
+      <rows>
+        <row>
+          KODE KECAMATAN
+          <textbox constraint="/\d{3}/: Isikan dengan 3 digit kode" cols="3" 
+              value="@bind(kecamatan_vm.currentKecamatan.kdKecamatan)"/>
+        </row>
+        <row>
+          NAMA KECAMATAN
+          <textbox cols="30" 
+              value="@bind(kecamatan_vm.currentKecamatan.nmKecamatan)"/>
+        </row>
+      </rows>
+    </grid>
+    <hbox align="center" pack="end" hflex="1">
+      <button label="Simpan" onClick="@command('simpan')"/>
+    </hbox>
+    <listbox id="box" multiple="true" mold="paging" pageSize="5"
+        style="overflow:auto; font-size:small"
+        model="@bind(kecamatan_vm.daftarKecamatan)" 
+        selectedItem="@bind(kecamatan_vm.currentKecamatan)">
+      <listhead>
+        <listheader label="KODE KECAMATAN" />
+        <listheader label="NAMA KECAMATAN" />
+      </listhead>
+      <template name="model" var="data">
+        <listitem>
+          <listcell label="@load(data.kdKecamatan)" />
+          <listcell label="@load(data.nmKecamatan)" />
+        </listitem>
+      </template>
+    </listbox>
+  </vbox>
+</window>
+</zk>

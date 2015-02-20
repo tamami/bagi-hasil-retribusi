@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping
+  SYSTEM "classpath://org/hibernate/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="lab.aikibo.entity.Skpd" table="ref_skpd">
+    <id name="kodeSkpd" type="java.lang.String">
+      <column name="kode_skpd" />
+    </id>
+    <property name="namaSkpd" type="java.lang.String">
+      <column name="nama_skpd" />
+    </property>
+  </class>
+</hibernate-mapping>

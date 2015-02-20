@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration
+  SYSTEM "classpath://org/hibernate/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <!-- Database connection settings -->
+    <property name="connection.driver_class">org.postgresql.Driver</property>
+    <property name="connection.url">jdbc:postgresql://localhost:5432/bh_retribusi</property> 
+    <property name="connection.username">perimbangan</property>
+    <property name="connection.password">rahasiaperimbangan</property>
+    <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    
+    <!-- JDBC connection pool -->
+    <property name="connection.pool_size">1</property>
+    
+    <!-- Enable hibernate's automatic session context management -->
+    <property name="current_session_context_class">thread</property>
+    
+    <!-- Bonecp connection pool -->
+    <property name="hibernate.connection.provider_class">com.jolbox.bonecp.provider.BoneCPConnectionProvider</property>
+    <property name="bonecp.minConnectionsPerPartition">5</property>
+    <property name="bonecp.maxConnectionsPerPartition">10</property>
+    <property name="bonecp.partitionCount">1</property>
+    
+    <!-- Mapping -->
+    <mapping resource="lab/aikibo/mapping/User.hbm.xml" />
+    <mapping resource="lab/aikibo/mapping/Skpd.hbm.xml" />
+    <mapping resource="lab/aikibo/mapping/Kecamatan.hbm.xml" />
+    <mapping resource="lab/aikibo/mapping/Kelurahan.hbm.xml" />
+    <mapping resource="lab/aikibo/mapping/JenisRetribusi.hbm.xml" />
+    <mapping resource="lab/aikibo/mapping/Potensi.hbm.xml" />
+    <mapping resource="lab/aikibo/mapping/Realisasi.hbm.xml" />
+    <mapping class="lab.aikibo.entity.LaporanPerJenis" />
+  </session-factory>
+</hibernate-configuration>

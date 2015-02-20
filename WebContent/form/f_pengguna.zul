@@ -1,0 +1,204 @@
+<zk>
+  <vbox hflex="1" vflex="1"
+      apply="org.zkoss.bind.BindComposer"
+      viewModel="@id('pengguna_vm') @init('lab.aikibo.viewmodel.PenggunaVM')">
+    <hbox>   
+    <grid hflex="50%">
+      <columns>
+        <column align="right" hflex="min"/>
+        <column />
+        <column align="left" hflex="min" />
+      </columns>
+      <rows>
+        <row>
+          NIP
+          <textbox constraint="/\d{18}/" cols="18" value="@bind(pengguna_vm.dataPengguna.nip)"/>
+          <button label="Tampilkan" onClick="@command('prosesNip')"/>
+        </row>
+        <row>
+          Nama
+          <textbox value="@bind(pengguna_vm.dataPengguna.nama)"/>
+          <label />
+        </row>
+        <row>
+          Login
+          <textbox value="@bind(pengguna_vm.dataPengguna.login)"/>
+          <label />
+        </row>
+        <row>
+          Password
+          <textbox type="password" value="@bind(pengguna_vm.untoldPassword)"/>
+          <label />
+        </row>
+        <row>
+          SKPD
+          <listbox model="@bind(pengguna_vm.daftarSkpd)" mold="select"
+              selectedItem="@bind(pengguna_vm.dataSkpd)">
+            <template name="model">
+              <listitem label="@load(each)" />
+            </template>
+          </listbox>
+          <label />
+        </row>
+      </rows>
+    </grid>
+    <tabbox hflex="50%">
+      <tabs>
+        <tab label="Pengaturan Menu" />
+      </tabs>
+      <tabpanels>
+        <tabpanel>
+          <tree>
+            <treecols>
+              <treecol hflex="95%" />
+              <treecol hflex="5%" />
+            </treecols>
+            <treechildren>
+              <treeitem>
+                <treerow>
+                  <treecell label="Pengaturan" />
+                  <treecell>
+                    <checkbox id="pengaturanMn" checked="@bind(pengguna_vm.mm.pengaturanMn)"
+                    		visible="@bind(!pengguna_vm.disableMenuConfiguration)"/>
+                  </treecell>
+                </treerow>
+                <treechildren>
+                  <treeitem>
+                    <treerow>
+                      <treecell label="Pengguna" />
+                      <treecell>
+                        <checkbox id="penggunaMn" checked="@bind(pengguna_vm.mm.penggunaMn)"
+                            visible="@bind(!pengguna_vm.disableMenuConfiguration)" />
+                      </treecell>
+                    </treerow>
+                  </treeitem>
+                  <treeitem>
+                    <treerow>
+                      <treecell label="Referensi Kecamatan" />
+                      <treecell>
+                        <checkbox id="refKecMn" checked="@bind(pengguna_vm.mm.refKecamatanMn)"
+                            visible="@bind(!pengguna_vm.disableMenuConfiguration)" />
+                      </treecell>
+                    </treerow>
+                  </treeitem>
+                  <treeitem>
+                    <treerow>
+                      <treecell label="Referensi Kelurahan" />
+                      <treecell>
+                        <checkbox id="refKelMn" checked="@bind(pengguna_vm.mm.refKelurahanMn)"
+                            visible="@bind(!pengguna_vm.disableMenuConfiguration)"/>
+                      </treecell>
+                    </treerow>
+                  </treeitem>
+                  <treeitem>
+                    <treerow>
+                      <treecell label="Referensi Jenis Retribusi" />
+                      <treecell>
+                        <checkbox id="refJnsRetribusiMn" checked="@bind(pengguna_vm.mm.refJnsRetribusiMn)"
+                            visible="@bind(!pengguna_vm.disableMenuConfiguration)"/>
+                      </treecell>
+                    </treerow>
+                  </treeitem>
+                  <treeitem>
+                    <treerow>
+                      <treecell label="Referensi SKPD" />
+                      <treecell>
+                        <checkbox id="refSKPDMn" checked="@bind(pengguna_vm.mm.refSkpdMn)"
+                            visible="@bind(!pengguna_vm.disableMenuConfiguration)"/>
+                      </treecell>
+                    </treerow>
+                  </treeitem>
+                </treechildren>
+              </treeitem>
+              <treeitem>
+                <treerow>
+                  <treecell label="Masukkan" />
+                  <treecell>
+                    <checkbox id="masukkanMn" checked="@bind(pengguna_vm.mm.masukkanMn)"
+                        visible="@bind(!pengguna_vm.disableMenuConfiguration)"/>
+                  </treecell>
+                </treerow>
+                <treechildren>
+                  <treeitem>
+                    <treerow>
+                      <treecell label="Potensi" />
+                      <treecell>
+                        <checkbox id="potensiMn" checked="@bind(pengguna_vm.mm.potensiMn)"
+                            visible="@bind(!pengguna_vm.disableMenuConfiguration)"/>
+                      </treecell>
+                    </treerow>
+                  </treeitem>
+                  <treeitem>
+                    <treerow>
+                      <treecell label="Realisasi" />
+                      <treecell>
+                        <checkbox id="realisasiMn" checked="@bind(pengguna_vm.mm.realisasiMn)"
+                            visible="@bind(!pengguna_vm.disableMenuConfiguration)"/>
+                      </treecell>
+                    </treerow>
+                  </treeitem>
+                </treechildren>
+              </treeitem>
+              <treeitem>
+                <treerow>
+                  <treecell label="Laporan" />
+                  <treecell>
+                    <checkbox id="laporanMn" checked="@bind(pengguna_vm.mm.laporanMn)"
+                        visible="@bind(!pengguna_vm.disableMenuConfiguration)"/>
+                  </treecell>
+                </treerow>
+                <treechildren>
+                  <treeitem>
+                    <treerow>
+                      <treecell label="Rekomendasi" />
+                      <treecell>
+                        <checkbox id="rekomendasiMn" checked="@bind(pengguna_vm.mm.rekomendasiMn)"
+                            visible="@bind(!pengguna_vm.disableMenuConfiguration)"/>
+                      </treecell>
+                    </treerow>
+                  </treeitem>
+                  <treeitem>
+                    <treerow>
+                      <treecell label="Per Jenis Retribusi" />
+                      <treecell>
+                        <checkbox id="perJnsRetribusiMn" checked="@bind(pengguna_vm.mm.perJenisRetribusiMn)"
+                            visible="@bind(!pengguna_vm.disableMenuConfiguration)"/>
+                      </treecell>
+                    </treerow>
+                  </treeitem>
+                </treechildren>
+              </treeitem>
+            </treechildren>
+          </tree>
+        </tabpanel>
+      </tabpanels>
+    </tabbox>
+    </hbox>
+    <hbox align="center" pack="end" hflex="1">
+      <button label="Simpan" onClick="@command('save')"/>
+      <button label="Hapus" visible="@bind(!pengguna_vm.disableMenuConfiguration)" />
+    </hbox>
+    <listbox id="box" model="@bind(pengguna_vm.daftarPengguna)"
+        selectedItem="@bind(pengguna_vm.dataPengguna)"
+        style="overflow:auto; font-size:small" multiple="true"
+        mold="paging" autopaging="true">
+      <listhead>
+        <listheader label="NIP" />
+        <listheader label="NAMA" />
+        <listheader label="LOGIN" />
+        <listheader label="PASSWORD" />
+        <listheader label="SKPD" />
+      </listhead>
+      <template name="model" var="data">
+        <listitem>
+          <listcell label="@load(data.nip)" />
+          <listcell label="@load(data.nama)" />
+          <listcell label="@load(data.login)" />
+          <listcell label="@load(data.password)" />
+          <listcell label="@load(data.kodeSkpd)" />
+        </listitem>
+      </template>
+    </listbox>
+    
+  </vbox>
+</zk>

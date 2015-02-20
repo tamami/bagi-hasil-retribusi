@@ -1,0 +1,5 @@
+<vbox hflex="1" vflex="1" align="center" pack="center"
+    apply="org.zkoss.bind.BindComposer"
+    viewModel="@id('home_vm') @init('lab.aikibo.viewmodel.HomeModel')">
+  <label value="Selamat Datang, ${sessionScope.userCredential.nama }" />
+</vbox>

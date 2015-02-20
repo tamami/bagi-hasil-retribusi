@@ -1,0 +1,43 @@
+<zk >
+  <menubar id="menubar" apply="org.zkoss.bind.BindComposer"
+    viewModel="@id('menuController') @init('lab.aikibo.viewmodel.MenuController')">
+    <menu label="Pengaturan" if="${menuController.pengaturanMn }">
+      <menupopup>
+        <menuitem id="pengguna" label="Pengguna" if="${menuController.penggunaMn }"
+            onClick="@global-command('showFormPengguna')"/>
+        <menuitem id="menu" label="Konfigurasi Menu" if="${menuController.menuMn }"/>
+        <menuitem id="ref_kecamatan" label="Referensi Kecamatan" 
+        		if="${menuController.refKecamatanMn }" 
+        		onClick="@global-command('showFormRefKecamatan')"/>
+        <menuitem id="ref_kelurahan" label="Referensi Kelurahan" 
+        		if="${menuController.refKelurahanMn }" 
+        		onClick="@global-command('showFormRefKelurahan')"/>
+        <menuitem id="ref_jns_retribusi" label="Referensi Jenis Retribusi"
+        		if="${menuController.refJnsRetribusiMn }" 
+        		onClick="@global-command('showFormRefJenisRetribusi')"/>
+        <menuitem id="ref_skpd" label="Referensi SKPD"
+        		if="${menuController.refSkpdMn }" 
+        		onClick="@global-command('showFormRefSkpd')"/>
+      </menupopup>
+    </menu>
+    <menu label="Masukkan" if="${menuController.masukkanMn }">
+      <menupopup>
+        <menuitem id="potensi" label="Potensi" if="${menuController.potensiMn }" 
+            onClick="@global-command('showFormPotensi')"/>
+        <menuitem id="realisasi" label="Realisasi"
+            if="${menuController.realisasiMn }" 
+            onClick="@global-command('showFormRealisasi')"/>
+      </menupopup>
+    </menu>
+    <menu label="Laporan" if="${menuController.laporanMn }">
+      <menupopup>
+        <menuitem id="rekomendasi" label="Rekomendasi"
+            if="${menuController.rekomendasiMn }" 
+            onClick="@global-command('showFormRekomendasi')"/>
+        <menuitem id="per_jns_retribusi" label="Per Jenis Retribusi"
+            if="${menuController.perJnsRetribusiMn }"
+            onClick="@global-command('showFormLaporanPerJenis')" />
+      </menupopup>
+    </menu>
+  </menubar>
+</zk>

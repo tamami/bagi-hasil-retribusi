@@ -1,0 +1,59 @@
+<?page title="Referensi Kelurahan" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Referensi Kelurahan" border="normal" mode="modal" width="700px"
+	position="center" height="430px" closable="true"
+	onClose="self.visible=false; event.stopPropagation();">
+  <vbox hflex="1" vflex="1"
+  	  apply="org.zkoss.bind.BindComposer"
+  	  viewModel="@id('kelurahan_vm') @init('lab.aikibo.viewmodel.KelurahanVM')">
+    <grid>
+      <columns>
+        <column />
+        <column />
+      </columns>
+      <rows>
+        <row> 
+          KECAMATAN
+          <listbox mold="select" model="@bind(kelurahan_vm.daftarKecamatan)" 
+              selectedItem="@bind(kelurahan_vm.dataKecamatan)">
+            <template id="box" name="model">
+              <listitem label="@load(each)" />
+            </template>
+          </listbox>
+        </row>
+        <row>
+          KODE KELURAHAN
+          <textbox constraint="/\d{3}/: Isikan dengan 3 digit kode" cols="3" 
+              value="@bind(kelurahan_vm.currentKelurahan.kdKelurahan)"/>
+        </row>
+        <row>
+          NAMA KELURAHAN
+          <textbox cols="30" value="@bind(kelurahan_vm.currentKelurahan.nmKelurahan)"/>
+        </row>
+      </rows>
+    </grid>
+    <hbox hflex="1" align="center" pack="end">
+      <button label="Simpan" onClick="@command('save')"/>
+    </hbox>
+    <listbox multiple="true" mold="paging" pageSize="5"
+    	style="overflow:auto; font-size:small"
+    	model="@bind(kelurahan_vm.daftarKelurahan)"
+    	selectedItem="@bind(kelurahan_vm.currentData)">
+      <listhead>
+        <listheader label="KODE KECAMATAN" />
+        <listheader label="NAMA KECAMATAN" />
+        <listheader label="KODE KELURAHAN" />
+        <listheader label="NAMA KELURAHAN" />
+      </listhead>
+      <template name="model" var="data">
+        <listitem>
+          <listcell label="@load(data[0])" />
+          <listcell label="@load(data[1])" />
+          <listcell label="@load(data[2])" />
+          <listcell label="@load(data[3])" />
+        </listitem>
+      </template>
+    </listbox>
+  </vbox>
+</window>
+</zk>

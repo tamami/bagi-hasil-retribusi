@@ -1,0 +1,19 @@
+<zk>
+  <borderlayout hflex="1" vflex="1" id="borderlayout1"
+      if="${not sessionScope.userCredential.anonymous }"
+      apply="org.zkoss.bind.BindComposer"
+      viewModel="@id('globalController') @init('lab.aikibo.viewmodel.GlobalController')">
+    <north height="120px" border="none">
+      <vlayout hflex="1">
+        <include src="/layout/banner.zul" />
+        <include src="/layout/menu.zul" />
+      </vlayout>
+    </north>
+    <center id="mainContent" autoscroll="true" border="none"
+        self="@insert(content)">
+    </center>
+    <south height="50px" border="none">
+      <include src="/layout/footer.zul" />
+    </south>
+  </borderlayout>
+</zk>

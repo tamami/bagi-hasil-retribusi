@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="lab.aikibo.entity.User" table="ref_user">
+    <id name="nip" type="java.lang.String">
+      <column name="nip" />
+    </id>
+    <property name="nama" type="java.lang.String">
+      <column name="nama" />
+    </property>
+    <property name="login" type="java.lang.String">
+      <column name="login" />
+    </property>
+    <property name="password" type="java.lang.String">
+      <column name="password" />
+    </property>
+    <property name="menu" type="java.lang.String">
+      <column name="menu" />
+    </property>
+    <property name="kodeSkpd" type="java.lang.String">
+      <column name="kode_skpd" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,77 @@
+<?page title="Realisasi" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Realisasi" border="normal" mode="modal" width="700px"
+    position="center" height="600px" closable="true">
+  <vbox hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer"
+  		viewModel="@id('realisasi_vm') @init('lab.aikibo.viewmodel.RealisasiVM')">
+    <grid>
+      <columns>
+        <column width="35%"/>
+        <column />
+      </columns>
+      <rows>
+        <row>
+          NOMOR
+          <label value="@bind(realisasi_vm.currentNomor)"/>
+        </row>
+        <row>
+          RETRIBUSI
+          <listbox mold="select" model="@bind(realisasi_vm.daftarRetribusi)"
+          		selectedItem="@bind(realisasi_vm.currentRetribusi)"/>
+        </row>
+        <row>
+          KECAMATAN
+          <listbox mold="select" model="@bind(realisasi_vm.daftarKecamatan)"
+              selectedItem="@bind(realisasi_vm.currentKecamatan)"/>
+        </row>
+        <row>
+          KELURAHAN
+          <listbox mold="select" model="@bind(realisasi_vm.daftarKelurahan)"
+              selectedItem="@bind(realisasi_vm.currentKelurahan)"/>
+        </row>
+        <row>
+          SKPD
+          <listbox mold="select" model="@bind(realisasi_vm.daftarSkpd)"
+              selectedItem="@bind(realisasi_vm.currentSkpd)"/>
+        </row>
+        <row>
+          TANGGAL REALISASI
+          <datebox value="@bind(realisasi_vm.currentTanggal)"/>
+        </row>
+        <row>
+          NILAI REALISASI
+          <longbox format="#,##0" value="@bind(realisasi_vm.currentRealisasi.nilaiRealisasi)"/>
+        </row>
+      </rows>
+    </grid>
+    <hbox align="center" pack="end" hflex="1">
+      <button label="Simpan" onClick="@command('saveOrUpdate')" />
+    </hbox>
+    <listbox multiple="true" mold="paging" pageSize="5"
+        style="overflow:auto; font-size:small"
+        model="@bind(realisasi_vm.daftarRealisasi)"
+        selectedItem="@bind(realisasi_vm.currentRealisasi)">
+      <listhead>
+        <listheader label="NOMOR" />
+        <listheader label="KODE RETRIBUSI" />
+        <listheader label="KODE KECAMATAN" />
+        <listheader label="KODE KELURAHAN" />
+        <listheader label="KODE SKPD" />
+        <listheader label="TANGGAL REALISASI" />
+        <listheader label="NILAI REALISASI" />
+      </listhead>
+      <template name="model" var="data">
+        <listitem>
+          <listcell label="@load(data.nomor)" />
+          <listcell label="@load(data.kodeRetribusi)" />
+          <listcell label="@load(data.kodeKecamatan)" />
+          <listcell label="@load(data.kodeKelurahan)" />
+          <listcell label="@load(data.kodeSkpd)" />
+          <listcell label="@load(data.tanggalRealisasi)" />
+          <listcell label="@load(data.nilaiRealisasi)" />
+        </listitem>
+      </template>
+    </listbox>
+  </vbox>
+</window>
+</zk>

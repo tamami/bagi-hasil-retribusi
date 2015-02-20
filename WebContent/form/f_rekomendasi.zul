@@ -1,0 +1,81 @@
+<?page title="Rekomendasi Bagi Hasil" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Rekomendasi Bagi Hasil" border="normal">
+  <vbox hflex="1" vflex="1">
+    <grid>
+      <columns>
+        <column />
+        <column />
+        <column />
+        <column />
+      </columns>
+      <rows>
+        <row>
+          PERIODE
+          <listbox mold="select" model="@bind(rekom_vm.daftarBulan)" 
+              selectedIndex="@bind(rekom_vm.currentBulan)"/>
+        </row>
+        <row>
+          TAHUN
+          <textbox cols="4" constraint="/\d{4}/: Isikan dengan 4 digit tahun potensi"
+              value="@bind(rekom_vm.thnRekom)"/>
+        </row>
+      </rows>
+    </grid>
+    <hbox>
+      <button label="Proses" />
+      <button label="Cetak" />
+    </hbox>
+    <listbox>
+      <frozen columns="3" />
+      <auxhead>
+        <auxheader label="NO" rowspan="2" />
+        <auxheader label="KECAMATAN" rowspan="2" />
+        <auxheader label="DESA" rowspan="2" />
+        <auxheader label="REKOMENDASI BAGI HASIL RETRIBUSI DAERAH" colspan="16" />
+        <auxheader label="JUMLAH BAGI HASIL RETRIBUSI DAERAH" rowspan="2" />
+      </auxhead>
+      <auxhead>
+        <auxheader label="RETRIBUSI PERSAMPAHAN/KEBERSIHAN" />
+        <auxheader label="RETRIBUSI PARKIR TEPI JALAN" />
+        <auxheader label="RETRIBUSI PASAR" />
+        <auxheader label="RETRIBUSI PKB" />
+        <auxheader label="PEMAKAIAN KEKAYAAN DAERAH" />
+        <auxheader label="RETRIBUSI TEMPAT PELELANGAN" />
+        <auxheader label="RETRIBUSI TERMINAL" />
+        <auxheader label="RETRIBUSI TEMPAT PENGINAPAN/VILLA" />
+        <auxheader label="RETRIBUSI RPH" />
+        <auxheader label="RETRIBUSI YAN PELABUHAN" />
+        <auxheader label="RETRIBUSI TEMPAT REKREASI DAN OR" />
+        <auxheader label="RETRIBUSI PENGGUNAAN RUAS JALAN" />
+        <auxheader label="RETRIBUSI IMB" />
+        <auxheader label="RETRIBUSI IJIN GANGGUAN/KERAMAIAN" />
+        <auxheader label="RETRIBUSI IJIN TRAYEK" />
+        <auxheader label="RETRIBUSI MENARA TELEKOMUNIKASI" />
+      </auxhead>
+      <listhead>
+        <listheader width="30px" />
+        <listheader width="90px" />
+        <listheader width="90px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="60px" />
+        <listheader width="70px" />
+      </listhead>
+    </listbox>
+  </vbox>
+</window>
+</zk>

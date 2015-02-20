@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping
+    SYSTEM "classpath://org/hibernate/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="lab.aikibo.entity.Realisasi" table="tr_realisasi">
+    <composite-id>
+      <key-property name="nomor" column="nomor" type="java.lang.Long" />
+      <key-property name="tanggalRealisasi" column="tanggal_realisasi" type="java.util.Date" />
+      <key-property name="kodeSkpd" column="kode_skpd" type="java.lang.String" />
+      <key-property name="kodeRetribusi" column="kode_retribusi" type="java.lang.String" />
+      <key-property name="kodeKecamatan" column="kode_kecamatan" type="string" />
+      <key-property name="kodeKelurahan" column="kode_kelurahan" type="string" />
+    </composite-id>
+    <property name="nilaiRealisasi" type="java.math.BigDecimal">
+      <column name="nilai_realisasi" />
+    </property>
+  </class>
+</hibernate-mapping>

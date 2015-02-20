@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping
+    SYSTEM "classpath://org/hibernate/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="lab.aikibo.entity.JenisRetribusi" table="ref_jenis_retribusi">
+    <id name="kdRetribusi" type="java.lang.String">
+      <column name="kode_retribusi" />
+    </id>
+    <property name="nmRetribusi" type="java.lang.String">
+      <column name="nama_retribusi" />
+    </property>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping
+    SYSTEM "classpath://org/hibernate/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="lab.aikibo.entity.Potensi" table="tr_potensi">
+    <composite-id>
+      <key-property name="kdRetribusi" column="kode_retribusi" type="java.lang.String" />
+      <key-property name="kdKecamatan" column="kode_kecamatan" type="java.lang.String" />
+      <key-property name="kdKelurahan" column="kode_kelurahan" type="java.lang.String" />
+      <key-property name="thnPotensi" column="tahun_potensi" type="java.lang.String" />
+      <key-property name="blnPotensi" column="bulan_potensi" type="java.lang.Integer" />
+    </composite-id>
+    <property name="nilaiPotensi" type="java.math.BigDecimal">
+      <column name="nilai_potensi" />
+    </property>
+  </class>
+</hibernate-mapping>

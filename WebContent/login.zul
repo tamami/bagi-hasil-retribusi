@@ -1,0 +1,35 @@
+<!-- it is login page, no authentication protection and use anonymous template -->
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/layout/template-anonymous.zul"?>
+
+<zk>
+  <hbox self="@define(content)" vflex="1" hflex="1" align="end" pack="end" spacing="20px">
+    <vlayout>
+      <window id="loginWin" apply="org.zkoss.bind.BindComposer"
+          viewModel="@id('login_vm') @init('lab.aikibo.viewmodel.LoginModel')"
+          title="Login" border="normal" hflex="min">
+        <vbox hflex="min" align="center">
+          <grid hflex="min">
+            <columns>
+              <column hflex="min" align="right" />
+              <column />
+            </columns>
+            <rows>
+              <row>
+                Login :
+                <textbox id="account" width="200px"
+                    value="@bind(login_vm.username)" />
+              </row>
+              <row>
+                Password :
+                <textbox id="password" type="password" width="200px"
+                    value="@bind(login_vm.password)" />
+              </row>
+            </rows>
+          </grid>
+          <label id="message" value="&#160;"/>
+          <button id="login" label="Open" onClick="@command('login')" />
+        </vbox>
+      </window>
+    </vlayout>
+  </hbox>
+</zk>

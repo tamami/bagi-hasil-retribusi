@@ -1,0 +1,44 @@
+<?page title="Jenis Retribusi" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Jenis Retribusi" border="normal" mode="modal" width="500px"
+    position="center" height="400px" closable="true">
+  <vbox hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer"
+      viewModel="@id('jns_retribusi_vm') @init('lab.aikibo.viewmodel.JenisRetribusiVM')">
+    <grid>
+      <columns>
+        <column />
+        <column />
+      </columns>
+      <rows>
+        <row>
+          KODE RETRIBUSI
+          <textbox constraint="/\d{2}/: Isikan dengan 2 digit kode retribusi" cols="2"
+              value="@bind(jns_retribusi_vm.currentJenisRetribusi.kdRetribusi)"/>
+        </row>
+        <row>
+          NAMA RETRIBUSI
+          <textbox cols="30" value="@bind(jns_retribusi_vm.currentJenisRetribusi.nmRetribusi)"/>
+        </row>
+      </rows>
+    </grid>
+    <hbox align="center" pack="end" hflex="1">
+      <button label="Simpan" onClick="@command('save')"/>
+    </hbox>
+    <listbox id="box" multiple="true" mold="paging" pageSize="4"
+        style="overflow:auto; font-size:small"
+        model="@bind(jns_retribusi_vm.daftarJenisRetribusi)"
+        selectedItem="@bind(jns_retribusi_vm.currentJenisRetribusi)">
+      <listhead>
+        <listheader label="KODE RETRIBUSI" />
+        <listheader label="NAMA RETRIBUSI" />
+      </listhead>
+      <template name="model" var="data">
+        <listitem>
+          <listcell label="@load(data.kdRetribusi)" />
+          <listcell label="@load(data.nmRetribusi)" />
+        </listitem>
+      </template>
+    </listbox>
+  </vbox>
+</window>
+</zk>

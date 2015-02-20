@@ -1,0 +1,24 @@
+<?link rel="stylesheet" type="text/css" href="/style.css" ?>
+<div hflex="1" vflex="1" sclass="banner">
+  <hbox hflex="1" vflex="1" align="center">
+    <a href="http://brebeskab.go.id/">
+      <image src="/images/logo_kecil.png" width="90px" />
+    </a>
+    <div width="400px">
+      <vbox>
+        <label value="PEMERINTAH KABUPATEN BREBES" sclass="head2" />
+        <label value="DINAS PENDAPATAN DAN PENGELOLAAN KEUANGAN" sclass="head2" />
+        <label value="Sistem Informasi Bagi-Hasil Retribusi Daerah" sclass="head1" />
+      </vbox>
+    </div>
+    
+    <hbox apply="org.zkoss.bind.BindComposer" hflex="1" vflex="1" pack="end" align="right"
+        viewModel="@id('logout_vm') @init('lab.aikibo.viewmodel.LogoutModel')">
+      <label value="${sessionScope.userCredential.nama }"
+          if="${not sessionScope.userCredential.anonymous }" />
+      <button id="logout" label="Logout"
+          if="${not sessionScope.userCredential.anonymous }"
+          onClick="@command('logout')" />
+    </hbox>
+  </hbox>
+</div>

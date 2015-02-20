@@ -1,0 +1,76 @@
+<?page title="Potesn" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Potensi" border="normal" mode="modal" width="750px"
+    position="center" height="500px" closable="true">
+  <vbox hflex="1" vflex="1" apply="org.zkoss.bind.BindComposer"
+      viewModel="@id('potensi_vm') @init('lab.aikibo.viewmodel.PotensiVM')">
+    <grid>
+      <columns>
+        <column />
+        <column />
+      </columns>
+      <rows>
+        <row>
+          RETRIBUSI
+          <listbox mold="select" model="@bind(potensi_vm.daftarRetribusi)"
+              selectedItem="@bind(potensi_vm.currentRetribusi)">
+          </listbox>
+        </row>
+        <row>
+          KECAMATAN
+          <listbox mold="select" model="@bind(potensi_vm.daftarKecamatan)"
+          	selectedItem="@bind(potensi_vm.currentKecamatan)">
+          </listbox>
+        </row>
+        <row>
+          KELURAHAN
+          <listbox mold="select" model="@bind(potensi_vm.daftarKelurahan)"
+            selectedItem="@bind(potensi_vm.currentKelurahan)">
+          </listbox>
+        </row>
+        <row>
+          TAHUN POTENSI
+          <textbox cols="4" constraint="/\d{4}/: Isikan dengan 4 digit tahun potensi" 
+            value="@bind(potensi_vm.thnPotensi)"/>
+        </row>
+        <row>
+          BULAN POTENSI
+          <listbox mold="select" model="@bind(potensi_vm.daftarBulan)"
+              selectedIndex="@bind(potensi_vm.blnPotensi)"/>
+        </row>
+        <row>
+          NILAI POTENSI
+          <longbox format="#,##0" constraint="no negative: Nilai harus positif"
+            value="@bind(potensi_vm.nilaiPotensi)"/>
+        </row>
+      </rows>
+    </grid>
+    <hbox hflex="1" align="center" pack="end"> 
+      <button label="Simpan" onClick="@command('saveOrUpdate')"/>
+    </hbox>
+    <listbox multiple="true" mold="paging" pageSize="5"
+        style="overflow:auto; font-size:small"
+        model="@bind(potensi_vm.daftarPotensi)"
+        selectedItem="@bind(potensi_vm.currentPotensi)">
+      <listhead>
+        <listheader label="KODE RETRIBUSI" />
+        <listheader label="KODE KECAMATAN" />
+        <listheader label="KODE KELURAHAN" />
+        <listheader label="TAHUN POTENSI" />
+        <listheader label="BULAN POTENSI" />
+        <listheader label="NILAI POTENSI" />
+      </listhead>
+      <template name="model" var="data">
+        <listitem>
+          <listcell label="@load(data.kdRetribusi)" />
+          <listcell label="@load(data.kdKecamatan)" />
+          <listcell label="@load(data.kdKelurahan)" />
+          <listcell label="@load(data.thnPotensi)" />
+          <listcell label="@load(data.formatBlnPotensi)" />
+          <listcell label="@load(data.nilaiPotensi)" />
+        </listitem>
+      </template>
+    </listbox>
+  </vbox>
+</window>
+</zk>
