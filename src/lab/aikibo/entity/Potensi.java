@@ -13,7 +13,9 @@ public class Potensi implements Serializable {
 	private BigDecimal nilaiPotensi;
 	private Integer blnPotensi;
 	
-	public Potensi() {}
+	public Potensi() {
+		blnPotensi = 0;
+	}
 	
 	public Potensi(String kdRetribusi, String kdKecamatan, String kdKelurahan, 
 			String thnPotensi, BigDecimal nilaiPotensi, Integer blnPotensi) {
