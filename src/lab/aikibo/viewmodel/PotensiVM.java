@@ -56,7 +56,7 @@ public class PotensiVM {
 		setDaftarBulan(bm.getFormattedDaftarBulan());
 		setCurrentPotensi(new Potensi());
 		setCurrentRetribusi(new String());
-		setCurrentKecamatan(new String());
+		currentKecamatan = new String();
 		setCurrentKelurahan(new String());
 		thnPotensi = "";
 		nilaiPotensi = new BigDecimal("0");
