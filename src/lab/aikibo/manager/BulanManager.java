@@ -54,7 +54,7 @@ public class BulanManager {
 		case "OKTOBER" : return 9;
 		case "NOVEMBER" : return 10;
 		case "DESEMBER" : return 11;
-		default : return null;
+		default : return 0;
 		}
 	}
 
