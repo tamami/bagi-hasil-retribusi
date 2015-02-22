@@ -29,7 +29,7 @@
         model="@bind(jns_retribusi_vm.daftarJenisRetribusi)"
         selectedItem="@bind(jns_retribusi_vm.currentJenisRetribusi)">
       <listhead>
-        <listheader label="KODE RETRIBUSI" width="130"/>
+        <listheader label="KODE RETRIBUSI" width="130px"/>
         <listheader label="NAMA RETRIBUSI" />
       </listhead>
       <template name="model" var="data">

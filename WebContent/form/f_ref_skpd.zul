@@ -30,7 +30,7 @@
         model="@bind(skpd_vm.daftarSkpd)"
         selectedItem="@bind(skpd_vm.currentSkpd)">
       <listhead>
-        <listheader label="KODE SKPD" width="100"/>
+        <listheader label="KODE SKPD" width="100px"/>
         <listheader label="NAMA SKPD" />
       </listhead>
       <template name="model" var="data">
