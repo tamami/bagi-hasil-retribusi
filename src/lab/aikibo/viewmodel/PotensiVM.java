@@ -54,7 +54,7 @@ public class PotensiVM {
 		setDaftarKecamatan(FormattingList.getFormattedKecamatan(kecM.getListKecamatan()));
 		setDaftarKelurahan(new LinkedList<String>());
 		setDaftarBulan(bm.getFormattedDaftarBulan());
-		setCurrentPotensi(new Potensi());
+		currentPotensi = new Potensi();
 		setCurrentRetribusi(new String());
 		currentKecamatan = new String();
 		setCurrentKelurahan(new String());
