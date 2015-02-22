@@ -27,18 +27,18 @@ public class Potensi implements Serializable {
 	
 	public String getFormatBlnPotensi() {
 		switch(blnPotensi) {
-		case 0 : return "JANUARI";
-		case 1 : return "FEBRUARI";
-		case 3 : return "MARET";
-		case 4 : return "APRIL";
-		case 5 : return "MEI";
-		case 6 : return "JUNI";
-		case 7 : return "JULI";
-		case 8 : return "AGUSTUS";
-		case 9 : return "SEPTEMBER";
-		case 10 : return "OKTOBER";
-		case 11 : return "NOVEMBER";
-		case 12 : return "DESEMBER";
+		case 0 : return "01 - JANUARI";
+		case 1 : return "02 - FEBRUARI";
+		case 3 : return "03 - MARET";
+		case 4 : return "04 - APRIL";
+		case 5 : return "05 - MEI";
+		case 6 : return "06 - JUNI";
+		case 7 : return "07 - JULI";
+		case 8 : return "08 - AGUSTUS";
+		case 9 : return "09 - SEPTEMBER";
+		case 10 : return "10 - OKTOBER";
+		case 11 : return "11 - NOVEMBER";
+		case 12 : return "12 - DESEMBER";
 		}
 		return null;
 	}
