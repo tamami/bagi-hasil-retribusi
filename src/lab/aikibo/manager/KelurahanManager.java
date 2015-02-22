@@ -41,5 +41,15 @@ public class KelurahanManager {
 		criteria.add(Restrictions.eq("kdKecamatan", kodeKecamatan));
 		return criteria.list();
 	}
+	
+	public String getFormattedKelurahanByKode(String kodeKecamatan, String kodeKelurahan) {
+		Session session = HibernateUtil.currentSession();
+		Criteria criteria = session.createCriteria(Kelurahan.class);
+		criteria.add(Restrictions.eq("kdKecamatan", kodeKecamatan));
+		criteria.add(Restrictions.eq("kdKelurahan", kodeKelurahan));
+		List<Kelurahan> data = (List<Kelurahan>) criteria.list();
+		if(data.isEmpty()) return null;
+		return data.get(0).getKdKelurahan() + " - " + data.get(0).getNmKelurahan();
+	}
 
 }
