@@ -123,7 +123,7 @@ public class PotensiVM {
 	@NotifyChange({"currentRetribusi"})
 	public void setCurrentPotensi(Potensi currentPotensi) {
 		this.currentPotensi = currentPotensi;
-		currentRetribusi = currentPotensi.getKdRetribusi();
+		currentRetribusi = jrm.getFormattedJnsRetribusiByKode(currentPotensi.getKdRetribusi());
 	}
 
 	public String getCurrentRetribusi() {

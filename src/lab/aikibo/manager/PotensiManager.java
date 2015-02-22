@@ -30,5 +30,5 @@ public class PotensiManager {
 		session.save(data);
 		session.flush();
 	}
-
+	
 }
