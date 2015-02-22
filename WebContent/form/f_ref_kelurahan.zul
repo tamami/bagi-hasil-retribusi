@@ -40,9 +40,9 @@
     	model="@bind(kelurahan_vm.daftarKelurahan)"
     	selectedItem="@bind(kelurahan_vm.currentData)">
       <listhead>
-        <listheader label="KODE KECAMATAN" />
+        <listheader label="KODE KECAMATAN" width="150px"/>
         <listheader label="NAMA KECAMATAN" />
-        <listheader label="KODE KELURAHAN" />
+        <listheader label="KODE KELURAHAN" width="150px"/>
         <listheader label="NAMA KELURAHAN" />
       </listhead>
       <template name="model" var="data">
