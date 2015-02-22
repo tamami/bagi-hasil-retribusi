@@ -11,9 +11,9 @@ import org.zkoss.zkplus.hibernate.HibernateUtil;
 
 public class KelurahanManager {
 	
-	public List<Object[]> getDaftarKelurahan() {
+	public List<String[]> getDaftarKelurahan() {
 		Session session = HibernateUtil.currentSession();
-		return session.createQuery("select kec.kdKecamatan, kec.nmKecamatan, " + 
+		return (List<String[]>) session.createQuery("select kec.kdKecamatan, kec.nmKecamatan, " + 
 				"  kel.kdKelurahan, kel.nmKelurahan " +
 				"from Kecamatan kec, Kelurahan kel " +
 				"where kec.kdKecamatan = kel.kdKecamatan " +

@@ -18,7 +18,7 @@ public class KelurahanVM {
 	private KecamatanManager kecm;
 	private Kelurahan currentKelurahan;
 	private String[] currentData;
-	private List<Object[]> daftarKelurahan;
+	private List<String[]> daftarKelurahan;
 	private List<String> daftarKecamatan;
 	private String dataKecamatan;
 	
@@ -74,11 +74,11 @@ public class KelurahanVM {
 		this.currentKelurahan = currentKelurahan;
 	}
 
-	public List<Object[]> getDaftarKelurahan() {
+	public List<String[]> getDaftarKelurahan() {
 		return daftarKelurahan;
 	}
 
-	public void setDaftarKelurahan(List<Object[]> daftarKelurahan) {
+	public void setDaftarKelurahan(List<String[]> daftarKelurahan) {
 		this.daftarKelurahan = daftarKelurahan;
 	}
 
