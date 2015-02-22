@@ -89,9 +89,9 @@ public class KelurahanVM {
 	@NotifyChange({"dataKecamatan", "currentKelurahan"})
 	public void setCurrentData(Object[] currentData) {
 		this.currentData = currentData;
-		this.dataKecamatan = currentData[0].toString().substring(0,3);
-		this.currentKelurahan.setKdKecamatan(currentData[0].toString().substring(0,3));
-		this.currentKelurahan.setKdKelurahan(currentData[2].toString().substring(0,3));
+		this.dataKecamatan = kecm.getFormattedKecamatanByKode(currentData[0].toString());
+		this.currentKelurahan.setKdKecamatan(currentData[0].toString());
+		this.currentKelurahan.setKdKelurahan(currentData[2].toString());
 		this.currentKelurahan.setNmKelurahan(currentData[3].toString());
 	}
 
