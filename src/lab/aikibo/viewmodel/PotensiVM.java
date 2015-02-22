@@ -120,13 +120,17 @@ public class PotensiVM {
 		return currentPotensi;
 	} 
 
-	@NotifyChange({"currentRetribusi","currentKecamatan","currentKelurahan"})
+	@NotifyChange({"currentRetribusi","currentKecamatan","currentKelurahan",
+			"thnPotensi", "blnPotensi","nilaiPotensi"})
 	public void setCurrentPotensi(Potensi currentPotensi) {
 		this.currentPotensi = currentPotensi;
 		currentRetribusi = jrm.getFormattedJnsRetribusiByKode(currentPotensi.getKdRetribusi());
 		currentKecamatan = kecM.getFormattedKecamatanByKode(currentPotensi.getKdKecamatan());
 		currentKelurahan = kelM.getFormattedKelurahanByKode(currentPotensi.getKdKecamatan(), 
 				currentPotensi.getKdKelurahan());
+		thnPotensi = currentPotensi.getThnPotensi();
+		blnPotensi = bm.getIndexBulanByName(currentPotensi.getFormatBlnPotensi());
+		nilaiPotensi = currentPotensi.getNilaiPotensi();
 	}
 
 	public String getCurrentRetribusi() {

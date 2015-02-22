@@ -21,5 +21,41 @@ public class BulanManager {
 		result.add("12 - DESEMBER");
 		return result;
 	}
+	
+	public String getFormattedBulanByName(String namaBulan) {
+		switch(namaBulan) {
+		case "JANUARI" : return "01 - JANUARI";
+		case "FEBRUARI" : return "02 - FEBRUARI";
+		case "MARET" : return "03 - MARET";
+		case "APRIL" : return "04 - APRIL";
+		case "MEI" : return "05 - MEI";
+		case "JUNI" : return "06 - JUNI";
+		case "JULI" : return "07 - JULI";
+		case "AGUSTUS" : return "08 - AGUSTUS";
+		case "SEPTEMBER" : return "09 - SEPTEMBER";
+		case "OKTOBER" : return "10 - OKTOBER";
+		case "NOVEMBER" : return "11 - NOVEMBER";
+		case "DESEMBER" : return "12 - DESEMBER";
+		default : return null;
+		}
+	}
+	
+	public Integer getIndexBulanByName(String namaBulan) {
+		switch(namaBulan) {
+		case "JANUARI" : return 0;
+		case "FEBRUARI" : return 1;
+		case "MARET" : return 2;
+		case "APRIL" : return 3;
+		case "MEI" : return 4;
+		case "JUNI" : return 5;
+		case "JULI" : return 6;
+		case "AGUSTUS" : return 7;
+		case "SEPTEMBER" : return 8;
+		case "OKTOBER" : return 9;
+		case "NOVEMBER" : return 10;
+		case "DESEMBER" : return 11;
+		default : return null;
+		}
+	}
 
 }
