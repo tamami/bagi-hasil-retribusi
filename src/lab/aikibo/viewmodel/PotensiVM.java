@@ -66,6 +66,7 @@ public class PotensiVM {
 	
 	@Command
 	@NotifyChange("daftarKelurahan")
+	@DependsOn("currentKecamatan")
 	public void aturDaftarKelurahan(String kodeKecamatan) {
 		setDaftarKelurahan(FormattingList.getFormattedKelurahan(kelM.getListKelurahanByKecamatan(kodeKecamatan)));
 	}
@@ -109,6 +110,7 @@ public class PotensiVM {
 		this.daftarKecamatan = daftarKecamatan;
 	}
 
+	@DependsOn("currentKecamatan")
 	public List<String> getDaftarKelurahan() {
 		return daftarKelurahan;
 	}
@@ -152,9 +154,10 @@ public class PotensiVM {
 		if(currentKecamatan.length() > 0) {
 		    daftarKelurahan = FormattingList.getFormattedKelurahan(kelM.getListKelurahanByKecamatan(currentKecamatan.substring(0,3)));
 		}
+		
 	}
 
-	@DependsOn("currentKecamatan")
+	
 	public String getCurrentKelurahan() {
 		return currentKelurahan;
 	}
