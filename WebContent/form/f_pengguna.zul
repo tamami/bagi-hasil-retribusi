@@ -183,11 +183,11 @@
         style="overflow:auto; font-size:small" multiple="true"
         mold="paging" autopaging="true">
       <listhead>
-        <listheader label="NIP" />
+        <listheader label="NIP" width="150px"/>
         <listheader label="NAMA" />
         <listheader label="LOGIN" />
         <listheader label="PASSWORD" />
-        <listheader label="SKPD" />
+        <listheader label="SKPD" width="50px"/>
       </listhead>
       <template name="model" var="data">
         <listitem>
