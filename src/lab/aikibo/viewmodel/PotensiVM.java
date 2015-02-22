@@ -125,7 +125,7 @@ public class PotensiVM {
 	public void setCurrentPotensi(Potensi currentPotensi) {
 		this.currentPotensi = currentPotensi;
 		currentRetribusi = jrm.getFormattedJnsRetribusiByKode(currentPotensi.getKdRetribusi());
-		currentKecamatan = kecM.getFormattedKecamatanByKode(currentPotensi.getKdKecamatan());
+		setCurrentKecamatan(kecM.getFormattedKecamatanByKode(currentPotensi.getKdKecamatan()));
 		currentKelurahan = kelM.getFormattedKelurahanByKode(currentPotensi.getKdKecamatan(), 
 				currentPotensi.getKdKelurahan());
 		thnPotensi = currentPotensi.getThnPotensi();
