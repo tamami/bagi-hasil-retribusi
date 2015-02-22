@@ -118,7 +118,7 @@ public class PotensiVM {
 
 	public Potensi getCurrentPotensi() {
 		return currentPotensi;
-	}
+	} 
 
 	@NotifyChange({"currentRetribusi","currentKecamatan","currentKelurahan"})
 	public void setCurrentPotensi(Potensi currentPotensi) {
