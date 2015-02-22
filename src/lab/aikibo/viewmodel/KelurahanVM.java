@@ -17,7 +17,7 @@ public class KelurahanVM {
 	private KelurahanManager km;
 	private KecamatanManager kecm;
 	private Kelurahan currentKelurahan;
-	private String[] currentData;
+	private Object[] currentData;
 	private List<String[]> daftarKelurahan;
 	private List<String> daftarKecamatan;
 	private String dataKecamatan;
@@ -82,14 +82,16 @@ public class KelurahanVM {
 		this.daftarKelurahan = daftarKelurahan;
 	}
 
-	public String[] getCurrentData() {
+	public Object[] getCurrentData() {
 		return currentData;
 	}
 
-	public void setCurrentData(String[] currentData) {
+	@NotifyChange({"dataKecamatan", "currentKelurahan"})
+	public void setCurrentData(Object[] currentData) {
 		this.currentData = currentData;
-		this.currentKelurahan.setKdKecamatan(currentData[0].toString());
-		this.currentKelurahan.setKdKelurahan(currentData[2].toString());
+		this.dataKecamatan = currentData[0].toString().substring(0,3);
+		this.currentKelurahan.setKdKecamatan(currentData[0].toString().substring(0,3));
+		this.currentKelurahan.setKdKelurahan(currentData[2].toString().substring(0,3));
 		this.currentKelurahan.setNmKelurahan(currentData[3].toString());
 	}
 
