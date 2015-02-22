@@ -31,7 +31,7 @@
         model="@bind(kecamatan_vm.daftarKecamatan)" 
         selectedItem="@bind(kecamatan_vm.currentKecamatan)">
       <listhead>
-        <listheader label="KODE KECAMATAN" />
+        <listheader label="KODE KECAMATAN" width="150px"/>
         <listheader label="NAMA KECAMATAN" />
       </listhead>
       <template name="model" var="data">
