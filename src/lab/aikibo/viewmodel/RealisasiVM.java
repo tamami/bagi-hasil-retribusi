@@ -105,7 +105,7 @@ public class RealisasiVM {
 		this.currentRealisasi = currentRealisasi;
 		currentNomor = currentRealisasi.getNomor();
 		currentRetribusi = jrm.getFormattedJnsRetribusiByKode(currentRealisasi.getKodeRetribusi());
-		currentKecamatan = kecM.getFormattedKecamatanByKode(currentRealisasi.getKodeKecamatan());
+		setCurrentKecamatan(kecM.getFormattedKecamatanByKode(currentRealisasi.getKodeKecamatan()));
 		currentKelurahan = kelM.getFormattedKelurahanByKode(currentRealisasi.getKodeKecamatan(), 
 				currentRealisasi.getKodeKelurahan());
 		currentSkpd = skpdM.getFormattedSkpdByKode(currentRealisasi.getKodeSkpd());
@@ -178,11 +178,11 @@ public class RealisasiVM {
 		this.kelM = kelM;
 	}
 
+	@DependsOn("currentKecamatan")
 	public List<String> getDaftarKelurahan() {
 		return daftarKelurahan;
 	}
-
-	@DependsOn("currentKecamatan")
+	
 	public void setDaftarKelurahan(List<String> daftarKelurahan) {
 		this.daftarKelurahan = daftarKelurahan;
 	}
