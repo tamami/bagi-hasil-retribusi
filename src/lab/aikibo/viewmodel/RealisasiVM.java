@@ -98,8 +98,10 @@ public class RealisasiVM {
 		return currentRealisasi;
 	}
 
+	@NotifyChange({"currentNomor","currentRealisasi"})
 	public void setCurrentRealisasi(Realisasi currentRealisasi) {
 		this.currentRealisasi = currentRealisasi;
+		currentNomor = currentRealisasi.getNomor();
 	}
 
 	public List<String> getDaftarRetribusi() {
