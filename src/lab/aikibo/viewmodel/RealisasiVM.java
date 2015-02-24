@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.DependsOn;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.util.Clients;
@@ -98,10 +99,17 @@ public class RealisasiVM {
 		return currentRealisasi;
 	}
 
-	@NotifyChange({"currentNomor","currentRealisasi"})
+	@NotifyChange({"currentNomor","currentRealisasi","currentRetribusi","currentKecamatan",
+		"currentKelurahan","currentSkpd","currentTanggal"})
 	public void setCurrentRealisasi(Realisasi currentRealisasi) {
 		this.currentRealisasi = currentRealisasi;
 		currentNomor = currentRealisasi.getNomor();
+		currentRetribusi = jrm.getFormattedJnsRetribusiByKode(currentRealisasi.getKodeRetribusi());
+		currentKecamatan = kecM.getFormattedKecamatanByKode(currentRealisasi.getKodeKecamatan());
+		currentKelurahan = kelM.getFormattedKelurahanByKode(currentRealisasi.getKodeKecamatan(), 
+				currentRealisasi.getKodeKelurahan());
+		currentSkpd = skpdM.getFormattedSkpdByKode(currentRealisasi.getKodeSkpd());
+		currentTanggal = currentRealisasi.getTanggalRealisasi();
 	}
 
 	public List<String> getDaftarRetribusi() {
@@ -174,6 +182,7 @@ public class RealisasiVM {
 		return daftarKelurahan;
 	}
 
+	@DependsOn("currentKecamatan")
 	public void setDaftarKelurahan(List<String> daftarKelurahan) {
 		this.daftarKelurahan = daftarKelurahan;
 	}
