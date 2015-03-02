@@ -25,7 +25,7 @@
     </grid>
     <hbox>
       <button label="Proses" />
-      <button label="Cetak" onClick="@command(showReport)" />
+      <button label="Cetak" onClick="@command('showReport')" />
     </hbox>
     <listbox>
       <frozen columns="3" />
