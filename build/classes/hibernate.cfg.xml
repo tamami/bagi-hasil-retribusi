@@ -30,6 +30,6 @@
     <mapping resource="lab/aikibo/mapping/JenisRetribusi.hbm.xml" />
     <mapping resource="lab/aikibo/mapping/Potensi.hbm.xml" />
     <mapping resource="lab/aikibo/mapping/Realisasi.hbm.xml" />
-    <mapping class="lab.aikibo.entity.LaporanPerJenis" />
+    <mapping resource="lab/aikibo/mapping/Rekomendasi.hbm.xml" />
   </session-factory>
 </hibernate-configuration>

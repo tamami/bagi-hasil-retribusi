@@ -5,8 +5,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
+import lab.aikibo.manager.BulanManager;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -26,17 +30,27 @@ public class RekomendasiVM {
 	private List<String> daftarBulan;
 	private String currentBulan;
 	private String thnRekom;
+	private BulanManager bm;
 	
 	@Init
 	public void init() {
-		daftarBulan = new LinkedList<String>();
+		bm = new BulanManager();
+		
+		clear();
+	}
+	
+	public void clear() {
+		daftarBulan = bm.getFormattedDaftarBulan();
 		thnRekom = new String();
 	}
 	 
 	@Command
 	public void showReport() throws JRException, IOException {
-		JasperPrint print = JasperFillManager.fillReport("../webapps/ZK-Bagihasil-Retribusi/report/hello.jasper", null, new JREmptyDataSource());
-		JasperExportManager.exportReportToPdfFile(print, "../webapps/ZK-Bagihasil-Retribusi/report/hello.pdf");
+		JasperPrint print = JasperFillManager.fillReport(
+				"..\\webapps\\ZK-Bagihasil-Retribusi\\report\\hello.jasper", null, 
+				new JREmptyDataSource());
+		JasperExportManager.exportReportToPdfFile(print, 
+				"../webapps/ZK-Bagihasil-Retribusi/report/hello.pdf");
 		
 		//Iframe iframe = (Iframe) this.getFellow("iframe");
 		File f = new File("../webapps/ZK-Bagihasil-Retribusi/report/hello.pdf");
@@ -49,6 +63,14 @@ public class RekomendasiVM {
 		Filedownload.save(amedia);
 		//iframe.setContent(amedia);
 	}
+	
+	@Command 
+	public void prosesReport() {
+		
+	}
+	
+	
+	// -- setter and getter
 
 	public List<String> getDaftarBulan() {
 		return daftarBulan;

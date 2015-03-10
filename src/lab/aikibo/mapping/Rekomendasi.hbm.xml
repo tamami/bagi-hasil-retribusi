@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping
+    SYSTEM "classpath://org/hibernate/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="lab.aikibo.entity.Rekomendasi" table="v_rekom">
+    <composite-id>
+      <key-property name="bulan" column="bulan" type="string" />
+      <key-property name="tahun" column="tahun" type="string" />
+      <key-property name="namaKecamatan" column="nama_kecamatan" type="string" />
+      <key-property name="namaKelurahan" column="nama_kelurahan" type="string" />
+    </composite-id>
+    <property name="realSampah" type="big_decimal">
+      <column name="real_sampah" />
+    </property>
+    <property name="realParkir" type="big_decimal">
+      <column name="real_parkir" />
+    </property>
+    <property name="realPasar" type="big_decimal">
+      <column name="real_pasar" />
+    </property>
+    <property name="realPkb" type="big_decimal">
+      <column name="real_pkb" />
+    </property>
+    <property name="realPkd" type="big_decimal">
+      <column name="real_pkd" />
+    </property>
+    <property name="realLelang" type="big_decimal">
+      <column name="real_lelang" />
+    </property>
+    <property name="realTerminal" type="big_decimal">
+      <column name="real_terminal" />
+    </property>
+    <property name="realVilla" type="big_decimal">
+      <column name="real_villa" />
+    </property>
+    <property name="realRph" type="big_decimal">
+      <column name="real_rph" />
+    </property>
+    <property name="realPelabuhan" type="big_decimal">
+      <column name="real_pelabuhan" />
+    </property>
+    <property name="realOr" type="big_decimal">
+      <column name="real_or" />
+    </property>
+    <property name="realRuasJalan" type="big_decimal">
+      <column name="real_ruas_jalan" />
+    </property>
+    <property name="realImb" type="big_decimal">
+      <column name="real_imb" />
+    </property>
+    <property name="realGangguan" type="big_decimal">
+      <column name="real_gangguan" />
+    </property>
+    <property name="realTrayek" type="big_decimal">
+      <column name="real_trayek" />
+    </property>
+    <property name="realTelkom" type="big_decimal">
+      <column name="real_telkom" />
+    </property>
+  </class>
+</hibernate-mapping>
