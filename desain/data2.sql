@@ -2,10 +2,6 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.3.4
--- Dumped by pg_dump version 9.3.4
--- Started on 2015-02-07 21:57:46
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -14,7 +10,6 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- TOC entry 177 (class 3079 OID 11750)
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -22,8 +17,6 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 1996 (class 0 OID 0)
--- Dependencies: 177
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
@@ -32,12 +25,44 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
+--
+-- Name: getjmlkelurahan(); Type: FUNCTION; Schema: public; Owner: perimbangan
+--
+
+CREATE FUNCTION getjmlkelurahan() RETURNS numeric
+    LANGUAGE plpgsql
+    AS $$
+declare result numeric;
+begin
+select count(kode_kelurahan) into result 
+  from ref_kelurahan;
+return result;
+end; $$;
+
+
+ALTER FUNCTION public.getjmlkelurahan() OWNER TO perimbangan;
+
+--
+-- Name: jmlbagirata(character, character, character); Type: FUNCTION; Schema: public; Owner: perimbangan
+--
+
+CREATE FUNCTION jmlbagirata(tahun character, bulan character, kd_retribusi character) RETURNS numeric
+    LANGUAGE plpgsql
+    AS $$
+declare result numeric;
+begin
+  select (sum(nilai_realisasi)*0.1*0.6/getjmlkelurahan()) into result from tr_realisasi where to_char(tanggal_realisasi,'YYYY') = tahun and to_char(tanggal_realisasi,'MM') = bulan and kode_retribusi = kd_retribusi;
+return result;
+end $$;
+
+
+ALTER FUNCTION public.jmlbagirata(tahun character, bulan character, kd_retribusi character) OWNER TO perimbangan;
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- TOC entry 172 (class 1259 OID 75744)
 -- Name: ref_jenis_retribusi; Type: TABLE; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -50,7 +75,6 @@ CREATE TABLE ref_jenis_retribusi (
 ALTER TABLE public.ref_jenis_retribusi OWNER TO perimbangan;
 
 --
--- TOC entry 170 (class 1259 OID 75729)
 -- Name: ref_kecamatan; Type: TABLE; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -63,7 +87,6 @@ CREATE TABLE ref_kecamatan (
 ALTER TABLE public.ref_kecamatan OWNER TO perimbangan;
 
 --
--- TOC entry 171 (class 1259 OID 75734)
 -- Name: ref_kelurahan; Type: TABLE; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -77,7 +100,6 @@ CREATE TABLE ref_kelurahan (
 ALTER TABLE public.ref_kelurahan OWNER TO perimbangan;
 
 --
--- TOC entry 175 (class 1259 OID 83933)
 -- Name: ref_skpd; Type: TABLE; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -90,7 +112,6 @@ CREATE TABLE ref_skpd (
 ALTER TABLE public.ref_skpd OWNER TO perimbangan;
 
 --
--- TOC entry 173 (class 1259 OID 75749)
 -- Name: ref_user; Type: TABLE; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -107,7 +128,6 @@ CREATE TABLE ref_user (
 ALTER TABLE public.ref_user OWNER TO perimbangan;
 
 --
--- TOC entry 174 (class 1259 OID 83918)
 -- Name: tr_potensi; Type: TABLE; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -124,25 +144,111 @@ CREATE TABLE tr_potensi (
 ALTER TABLE public.tr_potensi OWNER TO perimbangan;
 
 --
--- TOC entry 176 (class 1259 OID 83938)
 -- Name: tr_realisasi; Type: TABLE; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
 CREATE TABLE tr_realisasi (
     nomor numeric NOT NULL,
-    tanggal_realisasi date NOT NULL,
     kode_retribusi character(2) NOT NULL,
-    thn_retribusi character(4) NOT NULL,
-    nilai_realisasi numeric DEFAULT 0,
-    kode_skpd character(2) NOT NULL
+    kode_kecamatan character(3) NOT NULL,
+    kode_kelurahan character(3) NOT NULL,
+    kode_skpd character(2) NOT NULL,
+    tanggal_realisasi date NOT NULL,
+    nilai_realisasi numeric DEFAULT 0
 );
 
 
 ALTER TABLE public.tr_realisasi OWNER TO perimbangan;
 
 --
--- TOC entry 1984 (class 0 OID 75744)
--- Dependencies: 172
+-- Name: v_real_per_jenis; Type: VIEW; Schema: public; Owner: perimbangan
+--
+
+CREATE VIEW v_real_per_jenis AS
+ SELECT "real".kode_retribusi,
+    kel.nama_kelurahan,
+    kec.nama_kecamatan,
+    to_char(("real".tanggal_realisasi)::timestamp with time zone, 'MM'::text) AS bulan,
+    to_char(("real".tanggal_realisasi)::timestamp with time zone, 'YYYY'::text) AS tahun,
+    sum("real".nilai_realisasi) AS realisasi,
+    (sum("real".nilai_realisasi) * 0.1) AS sepuluh_persen,
+    jmlbagirata((to_char(("real".tanggal_realisasi)::timestamp with time zone, 'YYYY'::text))::bpchar, (to_char(("real".tanggal_realisasi)::timestamp with time zone, 'MM'::text))::bpchar, "real".kode_retribusi) AS enam_puluh_persen,
+    ((sum("real".nilai_realisasi) * 0.1) * 0.4) AS empat_puluh_persen,
+    (jmlbagirata((to_char(("real".tanggal_realisasi)::timestamp with time zone, 'YYYY'::text))::bpchar, (to_char(("real".tanggal_realisasi)::timestamp with time zone, 'MM'::text))::bpchar, "real".kode_retribusi) + ((sum("real".nilai_realisasi) * 0.1) * 0.4)) AS jumlah_bagihasil
+   FROM ((ref_kelurahan kel
+   JOIN ref_kecamatan kec ON ((kel.kode_kecamatan = kec.kode_kecamatan)))
+   LEFT JOIN tr_realisasi "real" ON (((kel.kode_kecamatan = "real".kode_kecamatan) AND (kel.kode_kelurahan = "real".kode_kelurahan))))
+  GROUP BY "real".kode_retribusi, kel.kode_kelurahan, kel.nama_kelurahan, kel.kode_kecamatan, kec.nama_kecamatan, to_char(("real".tanggal_realisasi)::timestamp with time zone, 'MM'::text), to_char(("real".tanggal_realisasi)::timestamp with time zone, 'YYYY'::text)
+  ORDER BY kel.kode_kecamatan, kel.kode_kelurahan;
+
+
+ALTER TABLE public.v_real_per_jenis OWNER TO perimbangan;
+
+--
+-- Name: v_rekom; Type: VIEW; Schema: public; Owner: perimbangan
+--
+
+CREATE VIEW v_rekom AS
+ SELECT "real".bulan,
+    "real".tahun,
+    kec.nama_kecamatan,
+    kel.nama_kelurahan,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '01'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_sampah,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '02'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_parkir,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '03'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_pasar,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '04'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_pkb,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '05'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_pkd,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '06'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_lelang,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '07'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_terminal,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '08'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_villa,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '09'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_rph,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '10'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_pelabuhan,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '11'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_or,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '12'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_ruas_jalan,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '13'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_imb,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '14'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_gangguan,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '15'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_trayek,
+    ( SELECT v_real_per_jenis.jumlah_bagihasil
+           FROM v_real_per_jenis
+          WHERE (((((v_real_per_jenis.kode_retribusi = '16'::bpchar) AND ((v_real_per_jenis.nama_kecamatan)::text = (kec.nama_kecamatan)::text)) AND ((v_real_per_jenis.nama_kelurahan)::text = (kel.nama_kelurahan)::text)) AND (v_real_per_jenis.bulan = "real".bulan)) AND (v_real_per_jenis.tahun = "real".tahun))) AS real_telkom
+   FROM ((ref_kecamatan kec
+   JOIN ref_kelurahan kel ON ((kec.kode_kecamatan = kel.kode_kecamatan)))
+   JOIN v_real_per_jenis "real" ON (((("real".nama_kecamatan)::text = (kec.nama_kecamatan)::text) AND (("real".nama_kelurahan)::text = (kel.nama_kelurahan)::text))));
+
+
+ALTER TABLE public.v_rekom OWNER TO perimbangan;
+
+--
 -- Data for Name: ref_jenis_retribusi; Type: TABLE DATA; Schema: public; Owner: perimbangan
 --
 
@@ -167,8 +273,6 @@ COPY ref_jenis_retribusi (kode_retribusi, nama_retribusi) FROM stdin;
 
 
 --
--- TOC entry 1982 (class 0 OID 75729)
--- Dependencies: 170
 -- Data for Name: ref_kecamatan; Type: TABLE DATA; Schema: public; Owner: perimbangan
 --
 
@@ -194,8 +298,6 @@ COPY ref_kecamatan (kode_kecamatan, nama_kecamatan) FROM stdin;
 
 
 --
--- TOC entry 1983 (class 0 OID 75734)
--- Dependencies: 171
 -- Data for Name: ref_kelurahan; Type: TABLE DATA; Schema: public; Owner: perimbangan
 --
 
@@ -258,8 +360,6 @@ COPY ref_kelurahan (kode_kecamatan, kode_kelurahan, nama_kelurahan) FROM stdin;
 
 
 --
--- TOC entry 1987 (class 0 OID 83933)
--- Dependencies: 175
 -- Data for Name: ref_skpd; Type: TABLE DATA; Schema: public; Owner: perimbangan
 --
 
@@ -272,41 +372,38 @@ COPY ref_skpd (kode_skpd, nama_skpd) FROM stdin;
 
 
 --
--- TOC entry 1985 (class 0 OID 75749)
--- Dependencies: 173
 -- Data for Name: ref_user; Type: TABLE DATA; Schema: public; Owner: perimbangan
 --
 
 COPY ref_user (nip, nama, login, password, menu, kode_skpd) FROM stdin;
-198404092010011025	ADMIN	ADMIN	êä‹\v$Ýï¨	1111111111111	01
+198404092010011025	ADMIN	ADMIN	ÃªÃ¤â€¹\v$ÃÃ¯Â¨	1111111111111	01
 \.
 
 
 --
--- TOC entry 1986 (class 0 OID 83918)
--- Dependencies: 174
 -- Data for Name: tr_potensi; Type: TABLE DATA; Schema: public; Owner: perimbangan
 --
 
 COPY tr_potensi (kode_retribusi, kode_kecamatan, kode_kelurahan, tahun_potensi, nilai_potensi, bulan_potensi) FROM stdin;
+01	020	001	2014	23000	0
+02	020	004	2014	50000	0
 \.
 
 
 --
--- TOC entry 1988 (class 0 OID 83938)
--- Dependencies: 176
 -- Data for Name: tr_realisasi; Type: TABLE DATA; Schema: public; Owner: perimbangan
 --
 
-COPY tr_realisasi (nomor, tanggal_realisasi, kode_retribusi, thn_retribusi, nilai_realisasi, kode_skpd) FROM stdin;
-1	2015-02-04	02	2015	11000	01
-2	2015-02-04	02	2015	20000	01
-3	2015-02-04	02	2015	25000	01
+COPY tr_realisasi (nomor, kode_retribusi, kode_kecamatan, kode_kelurahan, kode_skpd, tanggal_realisasi, nilai_realisasi) FROM stdin;
+1	02	010	002	01	2015-02-15	13000
+1	01	020	001	01	2015-02-15	10000
+2	02	010	005	01	2015-01-16	30000
+3	02	020	003	01	2015-02-15	12000
+2	01	010	002	01	2015-01-15	24000
 \.
 
 
 --
--- TOC entry 1855 (class 2606 OID 75748)
 -- Name: ref_jenis_retribusi_fk; Type: CONSTRAINT; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -315,7 +412,6 @@ ALTER TABLE ONLY ref_jenis_retribusi
 
 
 --
--- TOC entry 1851 (class 2606 OID 75733)
 -- Name: ref_kecamatan_pk; Type: CONSTRAINT; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -324,7 +420,6 @@ ALTER TABLE ONLY ref_kecamatan
 
 
 --
--- TOC entry 1853 (class 2606 OID 75738)
 -- Name: ref_kelurahan_pk; Type: CONSTRAINT; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -333,7 +428,6 @@ ALTER TABLE ONLY ref_kelurahan
 
 
 --
--- TOC entry 1864 (class 2606 OID 83937)
 -- Name: ref_skpd_pk; Type: CONSTRAINT; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -342,7 +436,6 @@ ALTER TABLE ONLY ref_skpd
 
 
 --
--- TOC entry 1858 (class 2606 OID 75756)
 -- Name: ref_user_pk; Type: CONSTRAINT; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -351,7 +444,6 @@ ALTER TABLE ONLY ref_user
 
 
 --
--- TOC entry 1862 (class 2606 OID 84031)
 -- Name: tr_potensi_pk; Type: CONSTRAINT; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -360,16 +452,14 @@ ALTER TABLE ONLY tr_potensi
 
 
 --
--- TOC entry 1867 (class 2606 OID 83946)
 -- Name: tr_realisasi_pk; Type: CONSTRAINT; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
 ALTER TABLE ONLY tr_realisasi
-    ADD CONSTRAINT tr_realisasi_pk PRIMARY KEY (nomor, tanggal_realisasi);
+    ADD CONSTRAINT tr_realisasi_pk PRIMARY KEY (nomor, kode_retribusi, kode_kecamatan, kode_kelurahan, kode_skpd, tanggal_realisasi);
 
 
 --
--- TOC entry 1859 (class 1259 OID 83969)
 -- Name: fki_kelurahan_fk; Type: INDEX; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -377,7 +467,6 @@ CREATE INDEX fki_kelurahan_fk ON tr_potensi USING btree (kode_kelurahan, kode_ke
 
 
 --
--- TOC entry 1860 (class 1259 OID 83963)
 -- Name: fki_ref_kecamatan_fk; Type: INDEX; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -385,7 +474,6 @@ CREATE INDEX fki_ref_kecamatan_fk ON tr_potensi USING btree (kode_kecamatan);
 
 
 --
--- TOC entry 1856 (class 1259 OID 83952)
 -- Name: fki_ref_skpd_fk; Type: INDEX; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
@@ -393,15 +481,50 @@ CREATE INDEX fki_ref_skpd_fk ON ref_user USING btree (kode_skpd);
 
 
 --
--- TOC entry 1865 (class 1259 OID 83975)
--- Name: fki_retribusi_fk; Type: INDEX; Schema: public; Owner: perimbangan; Tablespace: 
+-- Name: ref_jns_on_realisasi_fk; Type: INDEX; Schema: public; Owner: perimbangan; Tablespace: 
 --
 
-CREATE INDEX fki_retribusi_fk ON tr_realisasi USING btree (kode_retribusi);
+CREATE INDEX ref_jns_on_realisasi_fk ON tr_realisasi USING btree (kode_retribusi);
 
 
 --
--- TOC entry 1872 (class 2606 OID 83964)
+-- Name: ref_kec_on_realisasi_fk; Type: INDEX; Schema: public; Owner: perimbangan; Tablespace: 
+--
+
+CREATE INDEX ref_kec_on_realisasi_fk ON tr_realisasi USING btree (kode_kecamatan);
+
+
+--
+-- Name: ref_kel_on_realisasi_fk; Type: INDEX; Schema: public; Owner: perimbangan; Tablespace: 
+--
+
+CREATE INDEX ref_kel_on_realisasi_fk ON tr_realisasi USING btree (kode_kelurahan, kode_kecamatan);
+
+
+--
+-- Name: ref_skpd_on_realisasi_fk; Type: INDEX; Schema: public; Owner: perimbangan; Tablespace: 
+--
+
+CREATE INDEX ref_skpd_on_realisasi_fk ON tr_realisasi USING btree (kode_skpd);
+
+
+--
+-- Name: jns_retribusi_fk; Type: FK CONSTRAINT; Schema: public; Owner: perimbangan
+--
+
+ALTER TABLE ONLY tr_realisasi
+    ADD CONSTRAINT jns_retribusi_fk FOREIGN KEY (kode_retribusi) REFERENCES ref_jenis_retribusi(kode_retribusi);
+
+
+--
+-- Name: kecamatan_fk; Type: FK CONSTRAINT; Schema: public; Owner: perimbangan
+--
+
+ALTER TABLE ONLY tr_realisasi
+    ADD CONSTRAINT kecamatan_fk FOREIGN KEY (kode_kecamatan) REFERENCES ref_kecamatan(kode_kecamatan);
+
+
+--
 -- Name: kelurahan_fk; Type: FK CONSTRAINT; Schema: public; Owner: perimbangan
 --
 
@@ -410,7 +533,14 @@ ALTER TABLE ONLY tr_potensi
 
 
 --
--- TOC entry 1871 (class 2606 OID 83958)
+-- Name: kelurahan_fk; Type: FK CONSTRAINT; Schema: public; Owner: perimbangan
+--
+
+ALTER TABLE ONLY tr_realisasi
+    ADD CONSTRAINT kelurahan_fk FOREIGN KEY (kode_kecamatan, kode_kelurahan) REFERENCES ref_kelurahan(kode_kecamatan, kode_kelurahan);
+
+
+--
 -- Name: ref_kecamatan_fk; Type: FK CONSTRAINT; Schema: public; Owner: perimbangan
 --
 
@@ -419,7 +549,6 @@ ALTER TABLE ONLY tr_potensi
 
 
 --
--- TOC entry 1868 (class 2606 OID 75739)
 -- Name: ref_kelurahan_ref_kecamatan; Type: FK CONSTRAINT; Schema: public; Owner: perimbangan
 --
 
@@ -428,7 +557,6 @@ ALTER TABLE ONLY ref_kelurahan
 
 
 --
--- TOC entry 1870 (class 2606 OID 83953)
 -- Name: ref_retribusi_fk; Type: FK CONSTRAINT; Schema: public; Owner: perimbangan
 --
 
@@ -437,7 +565,6 @@ ALTER TABLE ONLY tr_potensi
 
 
 --
--- TOC entry 1869 (class 2606 OID 83947)
 -- Name: ref_skpd_fk; Type: FK CONSTRAINT; Schema: public; Owner: perimbangan
 --
 
@@ -446,26 +573,14 @@ ALTER TABLE ONLY ref_user
 
 
 --
--- TOC entry 1873 (class 2606 OID 83970)
--- Name: retribusi_fk; Type: FK CONSTRAINT; Schema: public; Owner: perimbangan
+-- Name: skpd_fk; Type: FK CONSTRAINT; Schema: public; Owner: perimbangan
 --
 
 ALTER TABLE ONLY tr_realisasi
-    ADD CONSTRAINT retribusi_fk FOREIGN KEY (kode_retribusi) REFERENCES ref_jenis_retribusi(kode_retribusi);
+    ADD CONSTRAINT skpd_fk FOREIGN KEY (kode_skpd) REFERENCES ref_skpd(kode_skpd);
 
 
 --
--- TOC entry 1874 (class 2606 OID 84015)
--- Name: retribusi_fk_skpd; Type: FK CONSTRAINT; Schema: public; Owner: perimbangan
---
-
-ALTER TABLE ONLY tr_realisasi
-    ADD CONSTRAINT retribusi_fk_skpd FOREIGN KEY (kode_skpd) REFERENCES ref_skpd(kode_skpd);
-
-
---
--- TOC entry 1995 (class 0 OID 0)
--- Dependencies: 5
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
 
@@ -474,8 +589,6 @@ REVOKE ALL ON SCHEMA public FROM postgres;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
-
--- Completed on 2015-02-07 21:57:47
 
 --
 -- PostgreSQL database dump complete
