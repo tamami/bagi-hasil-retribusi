@@ -9,7 +9,7 @@ public class RekomendasiManagerTest {
 	
 	public static void main(String args[]) {
 		RekomendasiManager rm = new RekomendasiManager();
-		List<Rekomendasi> data = rm.getDaftarRekomendasi();
+		List<Rekomendasi> data = rm.getDaftarRekomNonWeb();
 		if(!data.isEmpty()) {
 			System.out.println(data.size());
 		}
