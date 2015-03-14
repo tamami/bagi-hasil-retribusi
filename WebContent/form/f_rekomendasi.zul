@@ -12,7 +12,7 @@
       </columns>
       <rows>
         <row>
-          PERIODE
+          BULAN
           <listbox mold="select" model="@bind(rekom_vm.daftarBulan)" 
               selectedIndex="@bind(rekom_vm.currentBulan)"/>
         </row>
@@ -24,58 +24,98 @@
       </rows>
     </grid>
     <hbox>
-      <button label="Proses" />
+      <button label="Proses" onClick="@command('prosesReport', bulan=rekom_vm.kodeBulan, tahun=rekom_vm.thnRekom)"/>
       <button label="Cetak" onClick="@command('showReport')" />
     </hbox>
-    <listbox>
-      <frozen columns="3" />
+    <listbox multiple="true" mold="paging" pageSize="5" style="overflow:auto; font-size:small" 
+        model="@bind(rekom_vm.daftarRekomendasiUi)"
+        selectedItem="@bind(rekom_vm.currentRekomendasi)">
+      <frozen columns="2" />
       <auxhead>
-        <auxheader label="NO" rowspan="2" />
-        <auxheader label="KECAMATAN" rowspan="2" />
-        <auxheader label="DESA" rowspan="2" />
-        <auxheader label="REKOMENDASI BAGI HASIL RETRIBUSI DAERAH" colspan="16" />
-        <auxheader label="JUMLAH BAGI HASIL RETRIBUSI DAERAH" rowspan="2" />
+        <auxheader label="KECAMATAN" rowspan="2" align="center"/>
+        <auxheader label="DESA" rowspan="2" align="center"/>
+        <auxheader label="REKOMENDASI BAGI HASIL RETRIBUSI DAERAH" colspan="16" align="center"/>
+        <auxheader label="JUMLAH BAGI HASIL RETRIBUSI DAERAH" rowspan="2" align="center"/>
       </auxhead>
       <auxhead>
-        <auxheader label="RETRIBUSI PERSAMPAHAN/KEBERSIHAN" />
-        <auxheader label="RETRIBUSI PARKIR TEPI JALAN" />
-        <auxheader label="RETRIBUSI PASAR" />
-        <auxheader label="RETRIBUSI PKB" />
-        <auxheader label="PEMAKAIAN KEKAYAAN DAERAH" />
-        <auxheader label="RETRIBUSI TEMPAT PELELANGAN" />
-        <auxheader label="RETRIBUSI TERMINAL" />
-        <auxheader label="RETRIBUSI TEMPAT PENGINAPAN/VILLA" />
-        <auxheader label="RETRIBUSI RPH" />
-        <auxheader label="RETRIBUSI YAN PELABUHAN" />
-        <auxheader label="RETRIBUSI TEMPAT REKREASI DAN OR" />
-        <auxheader label="RETRIBUSI PENGGUNAAN RUAS JALAN" />
-        <auxheader label="RETRIBUSI IMB" />
-        <auxheader label="RETRIBUSI IJIN GANGGUAN/KERAMAIAN" />
-        <auxheader label="RETRIBUSI IJIN TRAYEK" />
-        <auxheader label="RETRIBUSI MENARA TELEKOMUNIKASI" />
+        <auxheader label="PERSAMPAHAN/KEBERSIHAN" align="center"/>
+        <auxheader label="PARKIR TEPI JALAN" align="center"/>
+        <auxheader label="PASAR" align="center"/>
+        <auxheader label="PKB" align="center"/>
+        <auxheader label="PEMAKAIAN KEKAYAAN DAERAH" align="center"/>
+        <auxheader label="TEMPAT PELELANGAN" align="center"/>
+        <auxheader label="TERMINAL" align="center"/>
+        <auxheader label="TEMPAT PENGINAPAN/VILLA" align="center"/>
+        <auxheader label="RPH" align="center"/>
+        <auxheader label="YAN PELABUHAN" align="center"/>
+        <auxheader label="TEMPAT REKREASI DAN OR" align="center"/>
+        <auxheader label="PENGGUNAAN RUAS JALAN" align="center"/>
+        <auxheader label="IMB" align="center"/>
+        <auxheader label="IJIN GANGGUAN/KERAMAIAN" align="center"/>
+        <auxheader label="IJIN TRAYEK" align="center"/>
+        <auxheader label="MENARA TELEKOMUNIKASI" align="center"/>
       </auxhead>
       <listhead>
-        <listheader width="30px" />
-        <listheader width="90px" />
-        <listheader width="90px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="60px" />
-        <listheader width="70px" />
+        <listheader width="150px" label="1" align="center"/>
+        <listheader width="150px" label="2" align="center"/>
+        <listheader width="200px" label="3" align="center"/>
+        <listheader width="150px" label="4" align="center"/>
+        <listheader width="100px" label="5" align="center"/>
+        <listheader width="100px" label="6" align="center"/>
+        <listheader width="210px" label="7" align="center"/>
+        <listheader width="150px" label="8" align="center"/>
+        <listheader width="100px" label="9" align="center"/>
+        <listheader width="180px" label="10" align="center"/>
+        <listheader width="100px" label="11" align="center"/>
+        <listheader width="150px" label="12" align="center"/>
+        <listheader width="200px" label="13" align="center"/>
+        <listheader width="200px" label="14" align="center"/>
+        <listheader width="100px" label="15" align="center"/>
+        <listheader width="200px" label="16" align="center"/>
+        <listheader width="100px" label="17" align="center"/>
+        <listheader width="180px" label="18" align="center"/>
+        <listheader width="200px" label="19" align="center"/>
       </listhead>
+      <template name="model" var="data">
+        <listitem >
+          <listcell label="@load(data.namaKecamatan)" />
+          <listcell label="@load(data.namaKelurahan)" />
+          <listcell label="@load(data.realSampah) @converter(rekom_vm.nfc)" 
+              style="text-align: right;" />
+          <listcell label="@load(data.realParkir) @converter(rekom_vm.nfc)" 
+              style="text-align: right;" />
+          <listcell label="@load(data.realPasar) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realPkb) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realPkd) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realLelang) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realTerminal) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realVilla) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realRph) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realPelabuhan) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realOr) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realRuasJalan) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realImb) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realGangguan) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realTrayek) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.realTelkom) @converter(rekom_vm.nfc)"
+              style="text-align: right;"/>
+          <listcell label="@load(data.total) @converter(rekom_vm.nfc)"
+              style="text-align: right;" />
+        </listitem>
+      </template>
     </listbox>
   </vbox>
 </window>
